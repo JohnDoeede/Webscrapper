@@ -9,8 +9,11 @@ import uuid
 import tempfile
 
 app = Flask(__name__)
-app.secret_key = 'contactcleaner-secret-key-change-in-production'
-app.config['UPLOAD_FOLDER'] = 'uploads'
+# Use environment variable for secret key in production
+app.secret_key = os.environ.get('SECRET_KEY', 'contactcleaner-secret-key-change-in-production')
+
+# Configuration
+app.config['UPLOAD_FOLDER'] = os.environ.get('UPLOAD_FOLDER', 'uploads')
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 
 # Ensure upload folder exists
@@ -327,4 +330,9 @@ def cleanup_old_files():
 if __name__ == '__main__':
     # Clean up old files on startup
     cleanup_old_files()
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    
+    # Production vs Development settings
+    port = int(os.environ.get('PORT', 5000))
+    debug = os.environ.get('FLASK_ENV') == 'development'
+    
+    app.run(debug=debug, host='0.0.0.0', port=port)
