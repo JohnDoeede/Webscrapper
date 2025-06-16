@@ -3,8 +3,10 @@ services:
     name: contactcleaner
     env: python
     plan: starter
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn --bind 0.0.0.0:$PORT app:app
+    buildCommand: |
+      python -m pip install --upgrade pip setuptools wheel
+      pip install --only-binary=all -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT app:app --timeout 120 --workers 1
     envVars:
       - key: FLASK_ENV
         value: production
@@ -13,6 +15,10 @@ services:
       - key: UPLOAD_FOLDER
         value: /tmp/uploads
       - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: PIP_NO_CACHE_DIR
+        value: "1"
+      - key: PIP_DISABLE_PIP_VERSION_CHECK
         value: "1"
     disk:
       name: uploads
