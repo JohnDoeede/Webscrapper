@@ -1,7 +1,6 @@
 # Build Tools (must be first)
 setuptools==68.2.2
 wheel==0.41.2
-pip==23.2.1
 
 # Web Framework
 Flask==2.3.3
@@ -12,12 +11,8 @@ itsdangerous==2.1.2
 click==8.1.7
 blinker==1.6.3
 
-# Data Processing (stable versions with pre-compiled wheels)
-pandas==1.3.5
-numpy==1.21.6
+# Basic data handling (CSV module is built-in Python)
 python-dateutil==2.8.2
-pytz==2023.3
-six==1.16.0
 
 # Phone Number Processing
 phonenumbers==8.13.11
